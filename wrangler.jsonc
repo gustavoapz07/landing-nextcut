@@ -1,0 +1,11 @@
+// Landing estática en Cloudflare (Workers con archivos estáticos, sin servidor).
+// Publicar: npm run deploy
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nextcut-landing",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
