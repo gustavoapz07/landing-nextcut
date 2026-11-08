@@ -1,0 +1,125 @@
+---
+import Telefono from "./Telefono.astro";
+import Marca from "./Marca.astro";
+---
+
+<section id="como-funciona" class="px-4 py-24 sm:px-6 sm:py-32" aria-labelledby="titulo-como">
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-aparece>
+      <h2
+        id="titulo-como"
+        class="font-display text-[clamp(3rem,7vw,5.5rem)] leading-[0.92] font-extrabold uppercase"
+      >
+        Tres pasos.<br /><span class="font-light">Cero apps.</span>
+      </h2>
+      <p class="max-w-sm text-lg text-tenue">
+        El cliente usa la cámara del celular y una página. No crea cuenta ni descarga nada.
+      </p>
+    </div>
+
+    <ol class="mt-16 grid gap-14 md:grid-cols-3 md:gap-8">
+      <li data-aparece>
+        <Telefono etiqueta="La fila de la barbería vista desde el celular: siete en fila, unos 40 minutos">
+          <p class="text-[0.7rem] text-tenue">Barbería La Navaja</p>
+          <p class="font-display text-3xl leading-none font-extrabold uppercase">La fila</p>
+          <div class="mt-3 grid grid-cols-2 gap-2">
+            <div class="rounded-2xl bg-noche p-3 text-hueso">
+              <p class="font-display text-3xl leading-none font-extrabold">7</p>
+              <p class="text-[0.65rem] text-hueso/60">en fila</p>
+            </div>
+            <div class="rounded-2xl bg-superficie p-3 ring-1 ring-borde">
+              <p class="font-display text-3xl leading-none font-extrabold">40′</p>
+              <p class="text-[0.65rem] text-tenue">de espera</p>
+            </div>
+          </div>
+          <ul class="mt-3 space-y-1.5">
+            {
+              [
+                ["Óscar", "3 en fila", "bg-ladrillo"],
+                ["Kevin", "2 en fila", "bg-marino"],
+                ["Elmer", "2 en fila", "bg-tinta"],
+              ].map(([n, f, c]) => (
+                <li class="flex items-center gap-2 rounded-xl bg-superficie p-2 ring-1 ring-borde">
+                  <span class={`grid size-7 place-items-center rounded-full text-[0.7rem] font-bold text-white ${c}`}>{n[0]}</span>
+                  <span class="flex-1 font-medium">{n}</span>
+                  <span class="text-[0.65rem] text-tenue">{f}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="mt-4 rounded-full bg-tinta py-2.5 text-center font-display text-lg font-extrabold text-fondo uppercase">
+            Anotarme
+          </p>
+        </Telefono>
+        <p class="mt-8 font-display text-6xl leading-none font-light text-ladrillo">01</p>
+        <h3 class="mt-2 font-display text-3xl font-extrabold uppercase">Escanea</h3>
+        <p class="mt-2 text-tenue">
+          Desde el QR de la puerta o el enlace de tu Instagram. Ve cuántos hay y cuánto falta antes de
+          decidir.
+        </p>
+      </li>
+
+      <li data-aparece style="--retraso:.1s">
+        <Telefono etiqueta="Formulario para anotarse: nombre, barbero y servicio">
+          <p class="font-display text-3xl leading-none font-extrabold uppercase">Anótate</p>
+          <p class="mt-3 text-[0.7rem] text-tenue">Tu nombre</p>
+          <p class="mt-1 rounded-xl bg-superficie px-3 py-2 ring-1 ring-borde">Carlos M.</p>
+          <p class="mt-3 text-[0.7rem] text-tenue">Barbero</p>
+          <div class="mt-1 flex flex-wrap gap-1.5">
+            <span class="rounded-full bg-tinta px-3 py-1 text-fondo">El primero libre</span>
+            <span class="rounded-full bg-superficie px-3 py-1 ring-1 ring-borde">Óscar</span>
+            <span class="rounded-full bg-superficie px-3 py-1 ring-1 ring-borde">Kevin</span>
+          </div>
+          <p class="mt-3 text-[0.7rem] text-tenue">Servicio</p>
+          <div class="mt-1 space-y-1.5">
+            <p class="flex justify-between rounded-xl bg-superficie px-3 py-2 ring-2 ring-tinta">
+              <span>Corte + barba</span><span class="text-tenue">L 200</span>
+            </p>
+            <p class="flex justify-between rounded-xl bg-superficie px-3 py-2 ring-1 ring-borde">
+              <span>Fade</span><span class="text-tenue">L 150</span>
+            </p>
+          </div>
+          <p class="mt-4 rounded-full bg-tinta py-2.5 text-center font-display text-lg font-extrabold text-fondo uppercase">
+            Tomar turno
+          </p>
+        </Telefono>
+        <p class="mt-8 font-display text-6xl leading-none font-light text-marino">02</p>
+        <h3 class="mt-2 font-display text-3xl font-extrabold uppercase">Anótate</h3>
+        <p class="mt-2 text-tenue">
+          Nombre, barbero y servicio. Puede anotarse desde la casa y llegar cuando le toca.
+        </p>
+      </li>
+
+      <li data-aparece style="--retraso:.2s">
+        <Telefono etiqueta="El turno A-14 en vivo: faltan 2, unos 25 minutos">
+          <div class="flex items-center justify-between text-[0.7rem] text-tenue">
+            <span>Tu turno</span>
+            <span class="inline-flex items-center gap-1"><span class="latido size-1.5 rounded-full bg-poste-rojo"></span> En vivo</span>
+          </div>
+          <div class="mt-2 rounded-[1.4rem] bg-noche p-4 text-hueso">
+            <div class="flex items-center justify-between">
+              <Marca soloBoleto class="h-5 w-auto text-hueso" />
+              <span class="text-[0.65rem] text-hueso/60">Con Óscar</span>
+            </div>
+            <p class="mt-3 font-display text-6xl leading-none font-extrabold">A-14</p>
+            <div class="my-3 border-t border-dashed border-white/25"></div>
+            <div class="flex justify-between">
+              <div><p class="font-display text-3xl leading-none font-extrabold">2</p><p class="text-[0.65rem] text-hueso/60">adelante</p></div>
+              <div class="text-right"><p class="font-display text-3xl leading-none font-extrabold">25′</p><p class="text-[0.65rem] text-hueso/60">más o menos</p></div>
+            </div>
+          </div>
+          <div class="mt-3 rounded-xl bg-superficie p-3 ring-1 ring-borde">
+            <p class="font-semibold">Te avisamos</p>
+            <p class="text-[0.7rem] text-tenue">Cuando falten 15 minutos y cuando te llamen.</p>
+          </div>
+          <p class="mt-3 rounded-full py-2 text-center text-[0.75rem] ring-1 ring-borde">Escribir a la barbería</p>
+        </Telefono>
+        <p class="mt-8 font-display text-6xl leading-none font-light text-ladrillo">03</p>
+        <h3 class="mt-2 font-display text-3xl font-extrabold uppercase">Llega a tiempo</h3>
+        <p class="mt-2 text-tenue">
+          El turno avanza en vivo. Le llega un aviso a los 15 minutos y otro cuando lo llaman.
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>

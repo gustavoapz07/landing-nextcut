@@ -1,0 +1,15 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>NextCut</title>
+  <defs>
+    <mask id="recorte">
+      <path d="M6 2h40a4 4 0 0 1 4 4v9a5 5 0 0 0 0 10v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-9a5 5 0 0 0 0-10V6a4 4 0 0 1 4-4z" fill="#fff"/>
+      <path d="M11 31V9h5.2l5.6 12.4V9H27v22h-5.1L16.2 18.4V31z" fill="#000"/>
+      <path d="M36 6v28" stroke="#000" stroke-width="1.75" stroke-dasharray="3 3"/>
+    </mask>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#1a1918"/>
+  <g transform="translate(6 12)">
+    <path d="M6 2h40a4 4 0 0 1 4 4v9a5 5 0 0 0 0 10v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-9a5 5 0 0 0 0-10V6a4 4 0 0 1 4-4z" fill="#f4f3f0" mask="url(#recorte)"/>
+    <circle cx="43" cy="20" r="3" fill="#a63d30"/>
+  </g>
+</svg>

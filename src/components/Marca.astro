@@ -1,0 +1,46 @@
+---
+// El boleto del turno, igual al de la app (app/src/components/Marca.tsx en el repo de NextCut).
+interface Props {
+  class?: string;
+  soloBoleto?: boolean;
+}
+const { class: clase = "", soloBoleto = false } = Astro.props;
+const BOLETO =
+  "M6 2h40a4 4 0 0 1 4 4v9a5 5 0 0 0 0 10v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-9a5 5 0 0 0 0-10V6a4 4 0 0 1 4-4z";
+const LETRA_N = "M11 31V9h5.2l5.6 12.4V9H27v22h-5.1L16.2 18.4V31z";
+const mascara = `boleto-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+{
+  soloBoleto ? (
+    <svg viewBox="0 0 52 40" aria-hidden="true" class:list={["shrink-0", clase]}>
+      <mask id={mascara}>
+        <path d={BOLETO} fill="#fff" />
+        <path d={LETRA_N} fill="#000" />
+        <path d="M36 6v28" stroke="#000" stroke-width="1.75" stroke-dasharray="3 3" />
+      </mask>
+      <path d={BOLETO} fill="currentColor" mask={`url(#${mascara})`} />
+      <circle cx="43" cy="20" r="3" class="fill-poste-rojo" />
+    </svg>
+  ) : (
+    <span
+      class:list={[
+        "inline-flex items-center gap-[0.3em] font-display text-2xl leading-none font-extrabold tracking-tight uppercase",
+        clase,
+      ]}
+    >
+      <svg viewBox="0 0 52 40" aria-hidden="true" class="h-[1.05em] w-auto shrink-0">
+        <mask id={mascara}>
+          <path d={BOLETO} fill="#fff" />
+          <path d={LETRA_N} fill="#000" />
+          <path d="M36 6v28" stroke="#000" stroke-width="1.75" stroke-dasharray="3 3" />
+        </mask>
+        <path d={BOLETO} fill="currentColor" mask={`url(#${mascara})`} />
+        <circle cx="43" cy="20" r="3" class="fill-poste-rojo" />
+      </svg>
+      <span>
+        Next<span class="font-light">Cut</span>
+      </span>
+    </span>
+  )
+}

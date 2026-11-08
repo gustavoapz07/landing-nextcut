@@ -1,0 +1,259 @@
+@import "@fontsource-variable/big-shoulders-display";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "tailwindcss";
+
+/* La misma identidad de la app (ADR-018 en el repo de NextCut): monocromo con ladrillo y marino.
+   La landing es clara con secciones en grafito; no cambia con el modo oscuro del sistema. */
+@theme {
+  --font-display: "Big Shoulders Display Variable", "Arial Narrow", sans-serif;
+  --font-sans: "Bricolage Grotesque Variable", system-ui, sans-serif;
+
+  --color-fondo: #f4f3f0;
+  --color-superficie: #fdfcfa;
+  --color-superficie-2: #e7e5e0;
+  --color-tinta: #1a1918;
+  --color-tenue: #66635d;
+  --color-borde: rgb(26 25 24 / 0.13);
+  --color-ladrillo: #9a3527;
+  --color-marino: #2c4669;
+  --color-ladrillo-claro: #e48a7c;
+  --color-marino-claro: #9db3d6;
+  --color-noche: #1a1918;
+  --color-noche-2: #262523;
+  --color-hueso: #f4f3f0;
+  --color-poste-rojo: #a63d30;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-fondo font-sans text-tinta antialiased;
+  }
+  ::selection {
+    @apply bg-tinta text-fondo;
+  }
+}
+
+/* Aparecer al entrar en pantalla. Sin JavaScript todo se ve (la clase .js la pone el script). */
+.js [data-aparece] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--retraso, 0s);
+}
+.js [data-aparece].visto {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes flotar {
+  50% {
+    translate: 0 -10px;
+  }
+}
+.flota {
+  animation: flotar 6s ease-in-out infinite;
+  animation-delay: var(--retraso, 0s);
+}
+
+@keyframes girar {
+  to {
+    rotate: 360deg;
+  }
+}
+.gira {
+  animation: girar 22s linear infinite;
+}
+
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.latido {
+  animation: latido 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flota,
+  .gira,
+  .latido {
+    animation: none;
+  }
+  .js [data-aparece] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Entrada al cargar (el hero no espera a que se haga scroll). */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+.entra {
+  animation: entrar 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--retraso, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .entra {
+    animation: none;
+  }
+}
+
+/* Boleto: muescas a los lados, como el logo. */
+.boleto {
+  border-radius: 0.9rem;
+  -webkit-mask:
+    radial-gradient(circle at 0 50%, transparent 0.6rem, #000 calc(0.6rem + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 0.6rem, #000 calc(0.6rem + 0.5px)) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle at 0 50%, transparent 0.6rem, #000 calc(0.6rem + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 0.6rem, #000 calc(0.6rem + 0.5px)) right / 51% 100% no-repeat;
+}
+
+/* La fila del sábado: el script marca .ido cuando el reloj pasa la hora de salida. */
+.fila-sabado .boleto-fila,
+.fila-sabado .sello,
+.fila-sabado .estado-espera {
+  transition:
+    translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.5s ease,
+    scale 0.35s cubic-bezier(0.3, 1.6, 0.5, 1),
+    filter 0.5s ease;
+}
+.fila-sabado .sello {
+  opacity: 0;
+  scale: 1.9;
+  translate: 0 -50%;
+  rotate: -8deg;
+}
+.fila-sabado .ido .boleto-fila {
+  translate: 14% 0;
+  opacity: 0.32;
+  filter: grayscale(1);
+}
+.fila-sabado .ido .estado-espera {
+  opacity: 0;
+}
+.fila-sabado .ido .sello {
+  opacity: 1;
+  scale: 1;
+}
+/* Sin JavaScript se ve el final de la historia. */
+html:not(.js) .fila-sabado [data-sale] .boleto-fila {
+  translate: 14% 0;
+  opacity: 0.32;
+}
+html:not(.js) .fila-sabado .sello {
+  opacity: 1;
+  scale: 1;
+}
+
+/* Tres puntos de «esperando». */
+.puntos {
+  display: inline-flex;
+  gap: 2px;
+}
+.puntos i {
+  width: 3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: latido 1.2s ease-in-out infinite;
+}
+.puntos i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.puntos i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Línea que baja en el indicador de scroll del hero. */
+@keyframes bajar {
+  from {
+    translate: 0 -100%;
+  }
+  to {
+    translate: 0 200%;
+  }
+}
+.bajar {
+  animation: bajar 1.8s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+/* La barra sobre secciones oscuras. */
+#barra[data-sobre="oscuro"] {
+  color: var(--color-hueso);
+}
+#barra[data-sobre="oscuro"] .pildora {
+  background: rgb(255 255 255 / 0.08);
+  --tw-ring-color: rgb(255 255 255 / 0.14);
+}
+#barra[data-sobre="oscuro"] .pildora a:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+#barra[data-sobre="oscuro"] .cta {
+  background: var(--color-hueso);
+  color: var(--color-tinta);
+}
+
+/* Pantalla de carga. */
+#cargador {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--color-noche);
+  color: var(--color-hueso);
+}
+html:not(.js) #cargador {
+  display: none;
+}
+.cargando body {
+  overflow: hidden;
+}
+
+/* TV en vivo: todo escala con el ancho de la pantalla (unidades cqw). */
+.tv {
+  container-type: inline-size;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fila-sabado .boleto-fila,
+  .fila-sabado .sello,
+  .fila-sabado .estado-espera {
+    transition: none;
+  }
+  .puntos i,
+  .bajar {
+    animation: none;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

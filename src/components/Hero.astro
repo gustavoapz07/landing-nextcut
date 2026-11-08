@@ -1,0 +1,122 @@
+---
+import Marca from "./Marca.astro";
+import { enlaceWhatsApp } from "../lib/sitio";
+---
+
+<!-- Hero de producto: la silla recortada al centro, el boleto encendido detrás y «NEXT» gigante delante.
+     Todo entra en una pantalla. Las animaciones (entrada y parallax) las maneja src/scripts/animaciones.ts. -->
+<section
+  id="hero"
+  data-tema="oscuro"
+  class="relative isolate flex h-svh min-h-[38rem] flex-col overflow-hidden bg-noche text-hueso"
+  aria-labelledby="titulo-hero"
+>
+  <!-- Luz de fondo -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute top-[18%] left-1/2 size-[46rem] -translate-x-1/2 rounded-full bg-ladrillo/25 blur-[120px] max-sm:size-[28rem]"
+    ></div>
+    <div class="absolute -bottom-40 left-[15%] size-[30rem] rounded-full bg-marino/40 blur-[120px]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgb(0_0_0/0.55))]"></div>
+  </div>
+
+  <!-- El boleto encendido detrás de la silla -->
+  <div
+    data-hero="boleto"
+    aria-hidden="true"
+    class="pointer-events-none absolute top-[11%] left-1/2 -z-10 w-[min(24rem,64vw)] -translate-x-1/2 text-hueso drop-shadow-[0_0_40px_rgb(244_243_240/0.35)] max-sm:top-[39%] max-sm:w-[54vw]"
+  >
+    <Marca soloBoleto class="h-auto w-full opacity-90" />
+  </div>
+
+  <!-- La silla -->
+  <img
+    data-hero="silla"
+    src="/img/silla.webp"
+    alt="Silla de barbero clásica de cuero negro y cromo"
+    width="540"
+    height="802"
+    fetchpriority="high"
+    class="pointer-events-none absolute bottom-[3%] left-1/2 h-[min(70svh,48rem)] w-auto -translate-x-1/2 drop-shadow-[0_40px_60px_rgb(0_0_0/0.7)] max-sm:bottom-[15%] max-sm:h-[46svh]"
+  />
+
+  <!-- «NEXT» gigante delante de la silla -->
+  <p
+    data-hero="palabra"
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 bottom-[2%] text-center font-display text-[clamp(6rem,21vw,20rem)] leading-[0.78] font-black tracking-tight text-hueso uppercase mix-blend-normal max-sm:bottom-[12%]"
+  >
+    {"Next".split("").map((l) => <span class="letra inline-block">{l}</span>)}
+  </p>
+
+  <!-- Textos a los lados -->
+  <div
+    class="relative mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 content-start gap-6 px-4 pt-24 sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:content-center lg:pt-0 lg:pb-40"
+  >
+    <div data-hero="texto" class="max-w-xs">
+      <p class="inline-flex items-center gap-2 text-sm text-ladrillo-claro">
+        <span class="latido size-2 rounded-full bg-ladrillo-claro"></span> Fila virtual para barberías
+      </p>
+      <h1
+        id="titulo-hero"
+        class="mt-3 font-display text-[clamp(1.9rem,2.6vw,2.5rem)] leading-[0.95] font-extrabold uppercase"
+      >
+        Que nadie se vaya <span class="block font-light text-ladrillo-claro">por no saber cuánto falta</span>
+      </h1>
+      <a
+        href={enlaceWhatsApp()}
+        target="_blank"
+        rel="noopener"
+        class="mt-6 inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium ring-1 ring-hueso/60 transition hover:bg-hueso hover:text-tinta"
+      >
+        Prueba gratis 30 días <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <div class="hidden lg:block"></div>
+    <div data-hero="texto" class="hidden max-w-xs justify-self-end lg:block">
+      <p class="text-hueso/75">
+        El cliente escanea el QR de la puerta, se anota sin descargar nada y ve en vivo cuántos tiene
+        adelante. Tú ves quién espera, quién se fue y cuánto entró.
+      </p>
+      <a href="#como-funciona" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-ladrillo-claro hover:underline">
+        Mira cómo funciona <span aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Recortes en la esquina: el turno y el aviso -->
+  <div
+    data-hero="recortes"
+    aria-hidden="true"
+    class="absolute right-4 bottom-6 hidden w-56 sm:right-6 md:block lg:right-[max(1.5rem,calc((100vw-72rem)/2))]"
+  >
+    <div class="relative h-40">
+      <div class="absolute top-0 right-8 w-44 rotate-[-6deg] rounded-2xl bg-hueso p-3 text-tinta shadow-2xl ring-4 ring-noche">
+        <div class="flex items-center justify-between text-[0.65rem] text-tenue">
+          <span>Tu turno</span><span class="inline-flex items-center gap-1"><span class="latido size-1.5 rounded-full bg-ladrillo"></span>En vivo</span>
+        </div>
+        <p class="font-display text-4xl leading-none font-extrabold">A-14</p>
+        <p class="mt-1 text-[0.7rem]"><b>Faltan 2</b> · unos 25 min</p>
+      </div>
+      <div class="absolute right-0 bottom-0 w-48 rotate-[5deg] rounded-2xl bg-marino p-3 text-hueso shadow-2xl ring-4 ring-noche">
+        <p class="text-[0.65rem] text-hueso/70">NextCut · ahora</p>
+        <p class="text-sm font-semibold">Ya casi te toca</p>
+        <p class="text-[0.7rem] text-hueso/75">Ve saliendo para la barbería.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll -->
+  <a
+    href="#problema"
+    data-hero="bajar"
+    class="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-[0.3em] text-hueso/60 uppercase md:flex"
+  >
+    <span class="relative block h-10 w-px overflow-hidden bg-hueso/20"><span class="bajar absolute inset-x-0 top-0 h-1/2 bg-hueso"></span></span>
+  </a>
+
+  <!-- En celular, el texto de la derecha va abajo -->
+  <p class="absolute inset-x-4 bottom-4 text-sm text-hueso/70 sm:hidden">
+    Se anotan desde el QR de la puerta y ven en vivo cuánto les falta.
+  </p>
+</section>

@@ -1,0 +1,160 @@
+---
+// Réplica de la pantalla de TV de la app (app/src/features/pantalla/PantallaTv.tsx en el repo de NextCut).
+// Todo se mide en cqw para que escale con el ancho, como la tele real escala con vw.
+// El movimiento (llamar al siguiente, anuncio, fila) lo maneja tvEnVivo() en src/scripts/animaciones.ts.
+import Marca from "./Marca.astro";
+
+const columnas = [
+  { nombre: "Óscar", silla: 1, banda: "bg-poste-rojo text-white", numero: 12, sigue: { n: 14, nombre: "Carlos M.", servicio: "Fade" } },
+  { nombre: "Kevin", silla: 2, banda: "bg-marino text-white", numero: 11, sigue: { n: 15, nombre: "Ana P.", servicio: "Corte" } },
+  { nombre: "Elmer", silla: 3, banda: "bg-hueso text-noche", numero: 13, sigue: { n: 16, nombre: "José A.", servicio: "Barba" } },
+];
+const fila = [
+  { n: 14, nombre: "Carlos M.", barbero: "Óscar" },
+  { n: 15, nombre: "Ana P.", barbero: "Kevin" },
+  { n: 16, nombre: "José A.", barbero: "Elmer" },
+  { n: 17, nombre: "Luis R.", barbero: "El primero" },
+  { n: 18, nombre: "Mario P.", barbero: "Óscar" },
+];
+
+// Un QR de adorno (21×21): los tres cuadros de las esquinas y relleno fijo.
+const N = 21;
+const celdas: [number, number][] = [];
+const esquina = (x: number, y: number, cx: number, cy: number) => {
+  const dx = x - cx, dy = y - cy;
+  if (dx < 0 || dy < 0 || dx > 6 || dy > 6) return null;
+  return dx === 0 || dy === 0 || dx === 6 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4);
+};
+let semilla = 7;
+const azar = () => ((semilla = (semilla * 9301 + 49297) % 233280) / 233280);
+for (let y = 0; y < N; y++)
+  for (let x = 0; x < N; x++) {
+    const e = esquina(x, y, 0, 0) ?? esquina(x, y, N - 7, 0) ?? esquina(x, y, 0, N - 7);
+    const enMargen = (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
+    if (e === true || (e === null && !enMargen && azar() > 0.52)) celdas.push([x, y]);
+  }
+const qr = celdas.map(([x, y]) => `M${x} ${y}h1v1h-1z`).join("");
+const marquesina = ["Anótate desde tu celular", "Escanea el código", "Ya no tienes que esperar aquí", "Te avisamos cuando te toque"];
+---
+
+<div class="mx-auto w-full max-w-5xl">
+  <div class="rounded-[1.6rem] bg-[#0d0d0c] p-2 shadow-[0_50px_80px_-40px_rgb(0_0_0/0.8)] ring-1 ring-white/10 sm:p-3">
+    <div
+      data-tv
+      role="img"
+      aria-label="Pantalla de TV de la barbería: tres barberos con el turno que atienden y el que sigue, la fila de espera y el código QR para anotarse"
+      class="tv relative aspect-[16/9] overflow-hidden rounded-[1cqw] bg-noche text-hueso"
+    >
+      <div class="franjas absolute inset-x-0 top-0 h-[0.8cqw]"></div>
+
+      <div class="flex h-[13%] items-center justify-between gap-[2cqw] px-[3cqw] pt-[1.4cqw]">
+        <span class="text-[2.2cqw]"><Marca class="text-[2.2cqw]!" /></span>
+        <p class="min-w-0 truncate font-display text-[3.6cqw] leading-none font-black uppercase">Barbería La Navaja</p>
+        <p class="font-display text-[3cqw] leading-none font-bold tabular-nums" data-tv="reloj">10:24</p>
+      </div>
+
+      <div class="grid h-[73%] grid-cols-[1fr_1fr_1fr_1.2fr] gap-[1.3cqw] px-[3cqw] py-[1.6cqw]">
+        {
+          columnas.map((c, i) => (
+            <section class="flex min-h-0 flex-col overflow-hidden rounded-[1.6cqw] bg-noche-2 ring-1 ring-white/10" data-tv-columna={i}>
+              <div class={`flex items-center justify-between px-[1.3cqw] py-[1cqw] ${c.banda}`}>
+                <p class="font-display text-[2.2cqw] leading-none font-black uppercase">{c.nombre}</p>
+                <p class="text-[1.1cqw] opacity-80">Silla {c.silla}</p>
+              </div>
+              <div class="flex flex-1 flex-col justify-center px-[1.3cqw] [perspective:600px]">
+                <p class="text-[1.1cqw] text-hueso/60">Atendiendo</p>
+                <p class="origin-center font-display text-[8.5cqw] leading-[0.9] font-black" data-tv="numero">#{c.numero}</p>
+              </div>
+              <div class="border-t border-white/10 px-[1.3cqw] py-[1.2cqw]">
+                <p class="text-[1.1cqw] text-hueso/60">Sigue</p>
+                <p class="truncate font-display text-[2.1cqw] leading-tight font-extrabold" data-tv="sigue">#{c.sigue.n} {c.sigue.nombre}</p>
+                <p class="text-[1cqw] text-hueso/60" data-tv="servicio">{c.sigue.servicio}</p>
+              </div>
+            </section>
+          ))
+        }
+        <section class="flex min-h-0 flex-col rounded-[1.6cqw] bg-hueso p-[1.5cqw] text-noche">
+          <div class="flex items-baseline justify-between">
+            <p class="font-display text-[2.8cqw] leading-none font-black uppercase">En fila</p>
+            <p class="font-display text-[1.8cqw] font-bold"><span data-tv="cuantos">5</span> personas</p>
+          </div>
+          <ol class="mt-[1.2cqw] flex min-h-0 flex-1 flex-col gap-[0.7cqw] overflow-hidden" data-tv="fila">
+            {
+              fila.map((t) => (
+                <li class="flex items-center gap-[0.8cqw] rounded-[0.8cqw] bg-noche/[0.06] px-[1cqw] py-[0.7cqw]" data-n={t.n}>
+                  <span class="w-[4.4cqw] font-display text-[2.2cqw] leading-none font-black">#{t.n}</span>
+                  <span class="min-w-0 flex-1 truncate text-[1.35cqw] font-semibold">{t.nombre}</span>
+                  <span class="text-[1cqw] opacity-60">{t.barbero}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+      </div>
+
+      <div class="flex h-[14%] items-stretch">
+        <div class="flex min-w-0 flex-1 items-center overflow-hidden bg-poste-rojo text-white">
+          <div class="marquesina flex shrink-0 gap-[3cqw] pr-[3cqw] font-display text-[3cqw] font-extrabold whitespace-nowrap uppercase">
+            {[...marquesina, ...marquesina].map((m) => <span>{m} <span class="opacity-60">·</span></span>)}
+          </div>
+        </div>
+        <div class="flex items-center gap-[1cqw] bg-hueso px-[1.6cqw] text-noche">
+          <svg viewBox="-1 -1 23 23" class="h-[10cqw] max-h-[85%] w-auto" shape-rendering="crispEdges" aria-hidden="true">
+            <path d={qr} fill="#1a1918"></path>
+          </svg>
+          <p class="font-display text-[1.6cqw] leading-[0.9] font-black uppercase">Escanea<br />y anótate</p>
+        </div>
+      </div>
+
+      <!-- Anuncio a pantalla completa cuando un barbero llama al siguiente -->
+      <div
+        data-tv="anuncio"
+        class="absolute inset-0 z-20 grid place-items-center bg-marino text-white [clip-path:inset(0_100%_0_0)]"
+        aria-live="off"
+      >
+        <div class="franjas absolute inset-0 opacity-15"></div>
+        <div class="relative text-center">
+          <p class="text-[2.6cqw] font-medium">Turno</p>
+          <p class="font-display text-[22cqw] leading-[0.9] font-black" data-tv="anuncio-numero">#14</p>
+          <p class="font-display text-[5cqw] leading-none font-light uppercase" data-tv="anuncio-nombre">Carlos M.</p>
+          <p class="mt-[2cqw] font-display text-[3cqw] font-extrabold uppercase" data-tv="anuncio-barbero">Pasa con Óscar · silla 1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" class="mx-auto h-6 w-28 bg-gradient-to-b from-[#0d0d0c] to-[#262523] [clip-path:polygon(20%_0,80%_0,100%_100%,0_100%)]"></div>
+  <div aria-hidden="true" class="mx-auto h-2 w-56 rounded-full bg-[#262523]"></div>
+</div>
+
+<style>
+  .franjas {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-poste-rojo) 0 1.2cqw,
+      var(--color-hueso) 1.2cqw 2.4cqw,
+      var(--color-marino) 2.4cqw 3.6cqw,
+      var(--color-hueso) 3.6cqw 4.8cqw
+    );
+    background-size: 6.79cqw 100%;
+    animation: franjas 1.4s linear infinite;
+  }
+  @keyframes franjas {
+    to {
+      background-position: 6.79cqw 0;
+    }
+  }
+  .marquesina {
+    animation: marquesina 26s linear infinite;
+  }
+  @keyframes marquesina {
+    to {
+      translate: -50% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .franjas,
+    .marquesina {
+      animation: none;
+    }
+  }
+</style>

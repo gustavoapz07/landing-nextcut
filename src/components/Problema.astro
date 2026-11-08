@@ -1,0 +1,138 @@
+---
+// La fila del sábado, en vivo con el scroll: la sección se queda fija, el reloj corre de 10:00 a 10:45
+// y cada boleto se va a su hora. El movimiento lo maneja src/scripts/animaciones.ts.
+const fila = [
+  { turno: "A-08", nombre: "Luis R.", servicio: "Fade", hora: "10:02" },
+  { turno: "A-09", nombre: "Mario P.", servicio: "Corte", hora: "10:09", seFue: "10:18" },
+  { turno: "A-10", nombre: "José A.", servicio: "Corte + barba", hora: "10:15" },
+  { turno: "A-11", nombre: "Carlos M.", servicio: "Fade", hora: "10:22" },
+  { turno: "A-12", nombre: "Kevin D.", servicio: "Barba", hora: "10:24", seFue: "10:31" },
+  { turno: "A-13", nombre: "Óscar L.", servicio: "Corte", hora: "10:27", seFue: "10:40" },
+  { turno: "A-14", nombre: "Erick S.", servicio: "Fade", hora: "10:33" },
+];
+const centro = 3;
+
+const quienes = [
+  {
+    numero: "01",
+    color: "text-ladrillo-claro",
+    quien: "El dueño",
+    titulo: "No sabe cuántos se fueron",
+    texto:
+      "El que se va no deja rastro. A fin de mes ves lo que entró, nunca lo que se quedó en la puerta.",
+  },
+  {
+    numero: "02",
+    color: "text-marino-claro",
+    quien: "El barbero",
+    titulo: "«¿Quién sigue?»",
+    texto:
+      "Y la discusión de siempre. El que llegó primero, el que «ya había venido», el que pidió a otro barbero.",
+  },
+  {
+    numero: "03",
+    color: "text-ladrillo-claro",
+    quien: "El cliente",
+    titulo: "Espera sin saber cuánto",
+    texto:
+      "Cuenta cabezas, pregunta «¿cuánto falta?» y nadie le puede decir. Una hora sin saber pesa más que una hora sabida.",
+  },
+];
+---
+
+<section id="problema" data-tema="oscuro" class="relative bg-noche text-hueso" aria-labelledby="titulo-problema">
+  <div
+    data-fila="escena"
+    class="relative flex min-h-svh items-center overflow-hidden px-4 pt-20 pb-8 sm:px-6 sm:py-20"
+  >
+    <div class="mx-auto grid w-full max-w-6xl items-center gap-6 sm:gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div>
+        <h2
+          id="titulo-problema"
+          data-revela
+          class="font-display text-[clamp(2.5rem,8vw,6.5rem)] leading-[0.9] font-extrabold uppercase"
+        >
+          «Ahorita<br /><span class="font-light text-ladrillo-claro">vuelvo»</span>
+        </h2>
+        <p data-aparece class="mt-3 max-w-sm text-sm sm:mt-5 sm:text-base text-hueso/75 sm:text-lg">
+          Entra, cuenta cabezas y pregunta cuánto falta. Nadie sabe. Dice «ahorita vuelvo» y no
+          vuelve. Ese corte no queda anotado en ningún lado.
+        </p>
+
+        <dl class="mt-8 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-2xl bg-white/10 max-sm:mt-6" data-aparece>
+          <div class="bg-noche-2 p-3 sm:p-4">
+            <dt class="text-xs text-hueso/55">Sábado</dt>
+            <dd class="font-display text-3xl leading-none font-extrabold tabular-nums sm:text-4xl" data-fila="reloj">10:00</dd>
+          </div>
+          <div class="bg-noche-2 p-3 sm:p-4">
+            <dt class="text-xs text-hueso/55">Se fueron</dt>
+            <dd class="font-display text-3xl leading-none font-extrabold text-ladrillo-claro tabular-nums sm:text-4xl" data-fila="idos">0</dd>
+          </div>
+          <div class="bg-noche-2 p-3 sm:p-4">
+            <dt class="text-xs text-hueso/55">Sin cobrar</dt>
+            <dd class="font-display text-3xl leading-none font-extrabold tabular-nums sm:text-4xl" data-fila="perdido">L 0</dd>
+          </div>
+        </dl>
+      </div>
+
+      <figure class="fila-sabado mx-auto w-full max-w-md">
+        <ol class="flex flex-col items-center [perspective:900px]" aria-label="Fila de un sábado: siete esperando y tres se van antes de que les toque">
+          {
+            fila.map((b, i) => {
+              const distancia = i - centro;
+              return (
+                <li
+                  data-sale={b.seFue}
+                  class:list={["boleto-li relative w-full", i > 0 && "-mt-1.5"]}
+                  style={`transform: rotateX(${-distancia * 7}deg) scale(${1 - Math.abs(distancia) * 0.045}); transform-origin: center ${distancia < 0 ? "bottom" : "top"}; z-index:${10 - Math.abs(distancia)}`}
+                >
+                  <div class="boleto-fila boleto flex items-center gap-3 bg-hueso py-2.5 pr-5 pl-6 text-tinta shadow-[0_18px_30px_-18px_black] sm:gap-4 sm:py-3">
+                    <span class:list={["font-display text-2xl leading-none font-extrabold sm:text-3xl", i === centro && "text-marino"]}>{b.turno}</span>
+                    <span class="min-w-0 flex-1 leading-tight">
+                      <span class="block truncate text-sm font-semibold sm:text-base">{b.nombre}</span>
+                      <span class="block truncate text-xs text-tenue">{b.servicio} · llegó {b.hora}</span>
+                    </span>
+                    <span class="h-8 border-l-2 border-dashed border-tinta/20" aria-hidden="true" />
+                    <span class="estado-espera inline-flex w-20 items-center justify-end gap-1.5 text-xs text-tenue">
+                      <span class="puntos" aria-hidden="true"><i></i><i></i><i></i></span> Esperando
+                    </span>
+                  </div>
+                  {b.seFue && (
+                    <span class="sello absolute top-1/2 right-3 rounded-md bg-ladrillo px-2.5 py-1 font-display text-base leading-none font-extrabold whitespace-nowrap text-hueso uppercase shadow-lg ring-2 ring-ladrillo-claro/60 sm:text-lg">
+                      Se fue {b.seFue}
+                    </span>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ol>
+      </figure>
+    </div>
+  </div>
+
+  <div class="px-4 pb-24 sm:px-6 sm:pb-32">
+    <div class="mx-auto grid max-w-6xl gap-px overflow-hidden rounded-[2rem] bg-white/10 sm:grid-cols-3">
+      {
+        quienes.map((q, i) => (
+          <article data-aparece style={`--retraso:${i * 0.08}s`} class="bg-noche-2 p-7 sm:p-8">
+            <p class={`font-display text-7xl leading-none font-light ${q.color}`}>{q.numero}</p>
+            <span class="mt-5 block h-px w-10 bg-hueso/30" />
+            <p class="mt-5 text-xs tracking-[0.3em] text-hueso/60 uppercase">{q.quien}</p>
+            <h3 class="mt-2 font-display text-3xl leading-none font-extrabold uppercase">{q.titulo}</h3>
+            <p class="mt-3 text-hueso/70">{q.texto}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <figure class="mx-auto mt-16 max-w-3xl text-center" data-aparece>
+      <blockquote class="font-display text-3xl leading-tight font-light sm:text-4xl">
+        «Las esperas inciertas se sienten más largas que las esperas conocidas.»
+      </blockquote>
+      <figcaption class="mt-3 text-sm text-hueso/50">
+        David Maister, <cite>The Psychology of Waiting Lines</cite>
+      </figcaption>
+    </figure>
+  </div>
+</section>

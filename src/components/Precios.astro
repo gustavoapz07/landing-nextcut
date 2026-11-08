@@ -1,0 +1,104 @@
+---
+import { enlaceWhatsApp, foto, PLANES } from "../lib/sitio";
+
+const diferencias = [
+  ["Cobran por cada barbero", "Un precio por barbería, con los barberos que tengas"],
+  ["El cliente descarga una app y crea cuenta", "Abre una página desde el QR"],
+  ["Pensadas para citas a una hora fija", "Pensado para la fila de llegada"],
+  ["Comisión por cada cliente nuevo", "Sin comisiones"],
+];
+---
+
+<section id="precios" class="px-4 py-24 sm:px-6 sm:py-32" aria-labelledby="titulo-precios">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-end">
+      <div data-aparece>
+        <p class="text-sm font-medium tracking-[0.3em] text-ladrillo uppercase">Precios</p>
+        <h2
+          id="titulo-precios"
+          class="mt-3 font-display text-[clamp(3.2rem,8vw,6.5rem)] leading-[0.92] font-extrabold uppercase"
+        >
+          Menos que<br /><span class="font-light">cinco cortes</span>
+        </h2>
+        <p class="mt-4 max-w-md text-lg text-tenue">
+          Mes a mes, por barbería. Empiezas con 30 días gratis y decides después.
+        </p>
+      </div>
+
+      <div data-aparece class="overflow-hidden rounded-[2rem] ring-1 ring-borde">
+        <div class="grid grid-cols-2 bg-superficie-2 text-xs tracking-[0.2em] uppercase">
+          <p class="p-4 text-tenue">Apps de citas</p>
+          <p class="bg-ladrillo p-4 font-semibold text-hueso">NextCut</p>
+        </div>
+        {
+          diferencias.map(([ellos, nosotros]) => (
+            <div class="grid grid-cols-2 border-t border-borde bg-superficie text-sm">
+              <p class="p-4 text-tenue line-through decoration-tinta/30">{ellos}</p>
+              <p class="p-4 font-medium">{nosotros}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <ul class="mt-20 space-y-6">
+      {
+        PLANES.map((plan, i) => (
+          <li
+            data-plan
+            class:list={[
+              "relative grid items-stretch gap-0 md:grid-cols-[1fr_15rem] lg:w-[88%]",
+              i % 2 === 1 && "lg:ml-auto md:grid-cols-[15rem_1fr]",
+            ]}
+          >
+            <img
+              data-foto
+              src={foto(plan.foto, 520, 520)}
+              alt=""
+              loading="lazy"
+              width="520"
+              height="520"
+              class:list={[
+                "hidden h-full w-full rounded-[2rem] object-cover md:block",
+                i % 2 === 1 ? "md:order-first md:-mr-10" : "md:order-last md:-ml-10",
+              ]}
+            />
+            <div
+              class:list={[
+                "relative z-10 grid gap-6 rounded-[2rem] p-7 shadow-[0_40px_60px_-40px_rgb(26_25_24/0.7)] sm:grid-cols-[1fr_auto] sm:p-9",
+                "destacado" in plan ? "bg-ladrillo text-hueso" : i === 1 ? "bg-marino text-hueso" : "bg-noche-2 text-hueso",
+              ]}
+            >
+              <div>
+                <div class="flex flex-wrap items-center gap-3">
+                  <h3 class="font-display text-5xl leading-none font-light uppercase">{plan.nombre}</h3>
+                  {"destacado" in plan && (
+                    <span class="rounded-full bg-hueso px-3 py-1 text-xs font-medium text-ladrillo">La que más conviene</span>
+                  )}
+                </div>
+                <p class="mt-2 text-hueso/75">{plan.nota}</p>
+                <p class="mt-8 font-display text-6xl leading-none font-extrabold">
+                  {plan.precio}
+                  <span class="ml-2 text-xl font-light text-hueso/75">{plan.periodo}</span>
+                </p>
+              </div>
+              <div class="flex flex-col justify-between gap-6 sm:text-right">
+                <ul class="space-y-1.5 text-hueso/85">
+                  {plan.incluye.map((x) => <li>{x}</li>)}
+                </ul>
+                <a
+                  href={enlaceWhatsApp(`Hola, me interesa el plan ${plan.nombre} de NextCut.`)}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center justify-center gap-2 self-start rounded-full bg-hueso px-5 py-3 text-sm font-medium text-tinta transition hover:bg-white sm:self-end"
+                >
+                  {i === 0 ? "Empezar la prueba" : `Quiero ${plan.nombre}`} <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+---
+// Cuenta con los números del dueño: no afirma cuántos se van, le pide que lo ponga él.
+const campos = [
+  { id: "c-ida", etiqueta: "Clientes que se van sin cortarse, en un día de fila", min: 1, max: 15, valor: 3, prefijo: "", sufijo: "" },
+  { id: "c-precio", etiqueta: "Precio promedio del corte", min: 80, max: 500, paso: 10, valor: 150, prefijo: "L ", sufijo: "" },
+  { id: "c-dias", etiqueta: "Días con fila a la semana", min: 1, max: 7, valor: 2, prefijo: "", sufijo: "" },
+];
+---
+
+<section class="px-4 py-24 sm:px-6 sm:py-32" aria-labelledby="titulo-calculadora">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+    <div data-aparece>
+      <p class="text-sm font-medium tracking-[0.3em] text-ladrillo uppercase">Haz la cuenta</p>
+      <h2
+        id="titulo-calculadora"
+        class="mt-3 font-display text-[clamp(2.8rem,6vw,4.75rem)] leading-[0.92] font-extrabold uppercase"
+      >
+        ¿Cuánto se queda<br /><span class="font-light">en la puerta?</span>
+      </h2>
+      <p class="mt-5 max-w-md text-lg text-tenue">
+        Nadie lo anota, así que nadie lo suma. Mueve las barras con los números de tu barbería.
+      </p>
+    </div>
+
+    <form
+      id="calculadora"
+      data-aparece
+      class="rounded-[2rem] bg-superficie p-6 shadow-[0_30px_60px_-30px_rgb(26_25_24/0.35)] ring-1 ring-borde sm:p-8"
+      onsubmit="return false"
+    >
+      {
+        campos.map((c) => (
+          <label class="mb-6 block">
+            <span class="flex items-baseline justify-between gap-4 text-sm">
+              <span>{c.etiqueta}</span>
+              <output for={c.id} class="font-display text-3xl font-extrabold tabular-nums" data-prefijo={c.prefijo}>
+                {c.prefijo}{c.valor}
+              </output>
+            </span>
+            <input
+              id={c.id}
+              type="range"
+              min={c.min}
+              max={c.max}
+              step={c.paso ?? 1}
+              value={c.valor}
+              class="mt-3 w-full accent-ladrillo"
+            />
+          </label>
+        ))
+      }
+      <div class="mt-2 rounded-[1.5rem] bg-ladrillo p-6 text-hueso">
+        <p class="text-sm text-hueso/60">Cortes que no cobras al mes</p>
+        <p class="mt-1 font-display text-[clamp(3rem,10vw,4.5rem)] leading-none font-extrabold tabular-nums">
+          <span id="c-total">L 3,900</span>
+        </p>
+        <p class="mt-2 text-sm text-hueso/60">
+          <span id="c-cortes">26</span> cortes. El plan Barbería cuesta L 690.
+        </p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const formulario = document.getElementById("calculadora") as HTMLFormElement | null;
+  const leer = (id: string) => Number((document.getElementById(id) as HTMLInputElement).value);
+  const formato = new Intl.NumberFormat("es-HN", { maximumFractionDigits: 0 });
+
+  function calcular() {
+    // 4.3 semanas por mes.
+    const cortes = Math.round(leer("c-ida") * leer("c-dias") * 4.3);
+    const total = cortes * leer("c-precio");
+    document.getElementById("c-total")!.textContent = `L ${formato.format(total)}`;
+    document.getElementById("c-cortes")!.textContent = formato.format(cortes);
+    formulario?.querySelectorAll("output").forEach((o) => {
+      const entrada = document.getElementById(o.htmlFor.value) as HTMLInputElement;
+      o.textContent = `${o.dataset.prefijo ?? ""}${entrada.value}`;
+    });
+  }
+  formulario?.addEventListener("input", calcular);
+  calcular();
+</script>

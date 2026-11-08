@@ -1,0 +1,24 @@
+---
+// Marco de celular para las pantallas de ejemplo. Son maquetas en HTML, no capturas.
+interface Props {
+  class?: string;
+  etiqueta: string;
+}
+const { class: clase = "", etiqueta } = Astro.props;
+---
+
+<figure
+  role="img"
+  aria-label={etiqueta}
+  class:list={[
+    "relative mx-auto w-full max-w-[17rem] rounded-[2.6rem] bg-noche p-2.5 shadow-[0_40px_70px_-30px_rgb(26_25_24/0.6)]",
+    clase,
+  ]}
+>
+  <div class="relative aspect-[9/18] overflow-hidden rounded-[2.1rem] bg-fondo">
+    <span class="absolute top-2 left-1/2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-noche"></span>
+    <div class="h-full px-4 pt-10 pb-4 text-[0.8rem]" aria-hidden="true">
+      <slot />
+    </div>
+  </div>
+</figure>
