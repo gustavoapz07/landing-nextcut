@@ -1,11 +1,8 @@
-// Landing estática en Cloudflare (Workers con archivos estáticos, sin servidor).
-// Publicar: npm run deploy
+// Landing estática en Cloudflare Pages, conectada al repo de GitHub:
+// cada push a main se compila (npm run build) y se publica solo.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "nextcut-landing",
+  "name": "landing-nextcut",
   "compatibility_date": "2026-11-01",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+  "pages_build_output_dir": "./dist"
 }

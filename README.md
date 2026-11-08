@@ -6,7 +6,7 @@ Página de venta de [NextCut](../NextCut), la fila virtual para barberías. Vive
 - **Identidad:** la de la app (ADR-018): monocromo con ladrillo y marino, Big Shoulders Display y Bricolage Grotesque, logo del boleto.
 - **Hero:** silla de barbero generada en Magnific y recortada (`public/img/silla.webp`); prompt y créditos en `fuente/Prompts_imagenes.md`.
 - **Fotos:** Unsplash, servidas desde su CDN (`foto()` en `src/lib/sitio.ts`).
-- **Publicación:** Cloudflare Pages, proyecto `nextcut-landing`: `npm run build` y `npx wrangler pages deploy dist --project-name nextcut-landing`.
+- **Publicación:** Cloudflare Pages, proyecto `landing-nextcut`, conectado a este repo de GitHub. Cada push a `main` se compila con `npm run build` (Node 24, por `.node-version`) y publica `dist/`. Los push a otras ramas dan una vista previa.
 
 ## Antes de publicar
 
@@ -23,8 +23,8 @@ npm run build    # sale en dist/
 
 ## Secciones
 
-1. Hero: titular, retrato con el turno y el aviso flotando.
-2. El problema: el «ahorita vuelvo» del sábado y a quién le cuesta.
+1. Hero: la silla recortada, el boleto encendido y «NEXT», con el turno y el aviso en la esquina.
+2. El problema: el «ahorita vuelvo» del sábado, con la fila fijada que avanza con el scroll.
 3. Cómo funciona: tres pasos con pantallas de ejemplo.
 4. Del otro lado del mostrador: barbero, dueño y TV.
 5. Calculadora: cuánto se queda en la puerta al mes, con los números del dueño.
