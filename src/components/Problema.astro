@@ -43,7 +43,7 @@ const quienes = [
 <section id="problema" data-tema="oscuro" class="relative bg-noche text-hueso" aria-labelledby="titulo-problema">
   <div
     data-fila="escena"
-    class="relative flex min-h-svh items-center overflow-hidden px-4 pt-20 pb-8 sm:px-6 sm:py-20"
+    class="relative flex items-center overflow-hidden px-4 py-20 sm:px-6 sm:py-28"
   >
     <div class="mx-auto grid w-full max-w-6xl items-center gap-6 sm:gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
@@ -73,6 +73,13 @@ const quienes = [
             <dd class="font-display text-3xl leading-none font-extrabold tabular-nums sm:text-4xl" data-fila="perdido">L 0</dd>
           </div>
         </dl>
+        <button
+          type="button"
+          data-fila="repetir"
+          class="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-hueso/70 opacity-0 ring-1 ring-white/15 transition hover:bg-white/10 hover:text-hueso"
+        >
+          <span aria-hidden="true">↻</span> Ver el sábado otra vez
+        </button>
       </div>
 
       <figure class="fila-sabado mx-auto w-full max-w-md">

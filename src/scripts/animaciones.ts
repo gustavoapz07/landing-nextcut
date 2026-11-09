@@ -211,23 +211,31 @@ function calcularFila() {
     if (perdido) perdido.textContent = `L ${n * PRECIO}`;
   };
 
-  if (quieto) return pintar(45);
+  const repetir = $<HTMLButtonElement>('[data-fila="repetir"]', escena);
+  if (quieto) {
+    repetir?.remove();
+    return pintar(45);
+  }
   pintar(0);
-  gsap.from($$(".boleto-li", escena), {
-    y: 50,
-    opacity: 0,
-    stagger: 0.06,
-    duration: 0.9,
-    ease: "expo.out",
-    scrollTrigger: { trigger: escena, start: "top 75%" },
-  });
+
+  // La historia corre sola en unos 4 segundos cuando la sección aparece; el scroll no se detiene.
+  const tiempo = { m: 0 };
+  const historia = gsap
+    .timeline({ paused: true })
+    .from($$(".boleto-li", escena), { y: 50, opacity: 0, stagger: 0.06, duration: 0.8, ease: "expo.out" })
+    .to(tiempo, { m: 45, duration: 3.6, ease: "power1.inOut", onUpdate: () => pintar(tiempo.m) }, 0.5)
+    .fromTo(repetir, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+
   ScrollTrigger.create({
     trigger: escena,
-    start: "top top",
-    end: "+=160%",
-    pin: true,
-    scrub: true,
-    onUpdate: (st) => pintar(st.progress * 45),
+    start: "top 55%",
+    once: true,
+    onEnter: () => historia.play(),
+  });
+  repetir?.addEventListener("click", () => {
+    tiempo.m = 0;
+    pintar(0);
+    historia.restart();
   });
 }
 
