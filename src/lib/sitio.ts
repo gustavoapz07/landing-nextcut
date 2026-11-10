@@ -78,3 +78,9 @@ export const PLANES = [
     foto: FOTOS.sombrero,
   },
 ] as const;
+
+// App de NextCut en producción (fila, panel y aviso de privacidad de los clientes).
+export const APP = "https://nextcut-produccion.gustavoapz07.workers.dev";
+
+// Fecha de la última versión de las páginas legales.
+export const LEGAL_ACTUALIZADO = "10 de noviembre de 2026";

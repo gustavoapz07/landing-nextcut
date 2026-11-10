@@ -6,14 +6,22 @@ import { enlaceWhatsApp } from "../lib/sitio";
 interface Props {
   titulo: string;
   descripcion: string;
+  /** Páginas de texto (privacidad, términos): sin pantalla de carga y con los enlaces a la portada. */
+  texto?: boolean;
 }
-const { titulo, descripcion } = Astro.props;
+const { titulo, descripcion, texto = false } = Astro.props;
+const raiz = texto ? "/" : "";
 
 const enlaces = [
-  { href: "#problema", texto: "El problema" },
-  { href: "#como-funciona", texto: "Cómo funciona" },
-  { href: "#precios", texto: "Precios" },
-  { href: "#preguntas", texto: "Preguntas" },
+  { href: `${raiz}#problema`, texto: "El problema" },
+  { href: `${raiz}#como-funciona`, texto: "Cómo funciona" },
+  { href: `${raiz}#precios`, texto: "Precios" },
+  { href: `${raiz}#preguntas`, texto: "Preguntas" },
+];
+
+const legales = [
+  { href: "/privacidad", texto: "Aviso de privacidad" },
+  { href: "/terminos", texto: "Términos del servicio" },
 ];
 ---
 
@@ -25,17 +33,24 @@ const enlaces = [
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <meta name="theme-color" content="#1a1918" />
-    <link rel="preload" as="image" href="/img/silla.webp" fetchpriority="high" />
+    {!texto && <link rel="preload" as="image" href="/img/silla.webp" fetchpriority="high" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
-    <script is:inline>document.documentElement.classList.add("js", "cargando");</script>
+    {
+      texto ? (
+        <script is:inline>document.documentElement.classList.add("js");</script>
+      ) : (
+        <script is:inline>document.documentElement.classList.add("js", "cargando");</script>
+      )
+    }
   </head>
   <body class="overflow-x-clip">
     <!-- Pantalla de carga: el boleto se dibuja, el número corre hasta A-14 y la cortina sube. -->
+    {!texto && (
     <div id="cargador" aria-hidden="true">
       <div class="flex flex-col items-center">
         <svg viewBox="0 0 52 40" class="w-24 overflow-visible sm:w-28">
@@ -58,6 +73,7 @@ const enlaces = [
         <p class="mt-2 text-xs tracking-[0.35em] text-hueso/50 uppercase">Tomando tu turno</p>
       </div>
     </div>
+    )}
 
     <a
       href="#contenido"
@@ -126,6 +142,10 @@ const enlaces = [
                 WhatsApp
               </a>
             </li>
+          </ul>
+          <p class="mt-8 text-xs tracking-[0.3em] text-hueso/50 uppercase">Legal</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            {legales.map((e) => <li><a href={e.href} class="hover:underline">{e.texto}</a></li>)}
           </ul>
         </div>
       </div>

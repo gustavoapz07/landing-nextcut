@@ -11,6 +11,7 @@ Página de venta de [NextCut](../NextCut), la fila virtual para barberías. Vive
 ## Antes de publicar
 
 - El WhatsApp (+504 8975-9031) está en `WHATSAPP` (`src/lib/sitio.ts`).
+- Confirmar si los precios incluyen ISV y que los términos los revise un abogado.
 - Confirmar los precios de `PLANES` (son una propuesta: Prueba gratis 30 días, Fila L 390, Barbería L 690).
 
 ## Comandos
@@ -30,3 +31,9 @@ npm run build    # sale en dist/
 5. Calculadora: cuánto se queda en la puerta al mes, con los números del dueño.
 6. Precios: comparación con apps de citas y los tres planes.
 7. Preguntas frecuentes y cierre con WhatsApp.
+
+## Páginas legales
+
+- `/privacidad`: qué recoge la landing (nada propio; Cloudflare, Unsplash y WhatsApp) y enlace al aviso de la fila en la app.
+- `/terminos`: términos del servicio para las barberías.
+- Las dos usan `components/PaginaLegal.astro` (sin pantalla de carga) y la fecha `LEGAL_ACTUALIZADO` de `src/lib/sitio.ts`. Si cambian los plazos o lo que guarda la app, se cambian junto con `features/legal/Privacidad.tsx` de la app (ADR-022).

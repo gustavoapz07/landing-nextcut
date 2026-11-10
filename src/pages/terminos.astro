@@ -1,0 +1,101 @@
+---
+import PaginaLegal from "../components/PaginaLegal.astro";
+import { APP, enlaceWhatsApp, LEGAL_ACTUALIZADO } from "../lib/sitio";
+---
+
+<PaginaLegal
+  titulo="Términos del servicio"
+  descripcion="Las reglas para usar NextCut en tu barbería: prueba, pagos, cancelación y datos de tus clientes."
+  actualizado={LEGAL_ACTUALIZADO}
+>
+  <h2>Qué es NextCut</h2>
+  <p>
+    NextCut es una fila virtual para barberías, hecha en Honduras. Tus clientes se anotan desde un
+    QR o un enlace, ven cuánto les falta y reciben un aviso cuando les toca. Tú y tus barberos
+    manejan la fila desde el celular. Al usar NextCut en tu barbería aceptas estos términos.
+  </p>
+
+  <h2>Prueba y pagos</h2>
+  <ul>
+    <li>Los primeros 30 días son gratis y no piden tarjeta.</li>
+    <li>
+      Después pagas mes a mes, por barbería, el plan que elijas. Antes del primer pago te
+      confirmamos por escrito el precio final y la forma de pago.
+    </li>
+    <li>Si un mes no se paga, la barbería se suspende hasta que se ponga al día.</li>
+    <li>Si cambiamos los precios, te avisamos por WhatsApp al menos 30 días antes.</li>
+  </ul>
+
+  <h2>Cancelar</h2>
+  <p>
+    No hay contrato de permanencia. Puedes dejar NextCut cuando quieras: el servicio sigue hasta el
+    final del mes que ya pagaste y no se devuelve la parte que no usaste.
+  </p>
+
+  <h2>Los datos de tus clientes</h2>
+  <ul>
+    <li>
+      Los datos de tu fila son de tu barbería. NextCut los guarda por encargo tuyo, solo para que la
+      fila funcione, y no los vende ni los usa para otra cosa.
+    </li>
+    <li>
+      Tus clientes ven qué se guarda y cuándo se borra en el
+      <a href={`${APP}/privacidad`}>aviso de privacidad de la fila</a>. El WhatsApp de cada cliente
+      se borra solo a los 90 días.
+    </li>
+    <li>
+      Usa los teléfonos de tus clientes solo para avisarles de su turno. Para mandarles promociones
+      necesitas que ellos te den permiso aparte.
+    </li>
+    <li>
+      Si un cliente te pide que borres sus datos, avísanos y lo hacemos.
+    </li>
+    <li>
+      Si dejas NextCut, borramos los datos de tu barbería a más tardar 30 días después.
+    </li>
+  </ul>
+
+  <h2>Tu equipo</h2>
+  <ul>
+    <li>Cada barbero usa su propia cuenta. No compartan contraseñas.</li>
+    <li>Si alguien deja la barbería, avísanos para cerrar su cuenta.</li>
+    <li>Eres responsable de lo que se hace con las cuentas de tu barbería.</li>
+  </ul>
+
+  <h2>Suspender una barbería</h2>
+  <p>
+    Podemos suspender una barbería por falta de pago, por usar NextCut para engañar o molestar a
+    otras personas, o si pone en riesgo el servicio de las demás. Te avisamos antes, salvo que sea
+    urgente. Una barbería suspendida no se borra: eso solo pasa si la cancelas o después de 60 días
+    suspendida, con aviso previo.
+  </p>
+
+  <h2>Hasta dónde llega el servicio</h2>
+  <ul>
+    <li>
+      Hacemos lo posible para que NextCut funcione siempre, pero depende de internet, del celular de
+      cada persona y de servicios de otros (Supabase, Cloudflare y el servicio de avisos de cada
+      navegador). Puede haber fallas o pausas por mantenimiento.
+    </li>
+    <li>
+      El tiempo de espera que ve el cliente es un estimado. NextCut no garantiza que un cliente
+      llegue, espere ni se quede.
+    </li>
+    <li>
+      Si algo sale mal por nuestra culpa, lo más que respondemos es lo que pagaste en los últimos
+      3 meses.
+    </li>
+  </ul>
+
+  <h2>Cambios a estos términos</h2>
+  <p>
+    Si cambiamos algo importante, te avisamos por WhatsApp al menos 30 días antes. Si no estás de
+    acuerdo, puedes cancelar sin costo.
+  </p>
+
+  <h2>Ley y contacto</h2>
+  <p>
+    Estos términos se rigen por las leyes de Honduras. Para cualquier duda, escríbenos por
+    <a href={enlaceWhatsApp("Hola, tengo una pregunta sobre los términos de NextCut.")} target="_blank" rel="noopener">WhatsApp al +504 8975-9031</a>.
+  </p>
+</PaginaLegal>

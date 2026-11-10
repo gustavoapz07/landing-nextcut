@@ -1,0 +1,52 @@
+---
+import PaginaLegal from "../components/PaginaLegal.astro";
+import { APP, enlaceWhatsApp, LEGAL_ACTUALIZADO } from "../lib/sitio";
+---
+
+<PaginaLegal
+  titulo="Aviso de privacidad"
+  descripcion="Qué datos recoge esta página de NextCut y qué pasa cuando nos escribes."
+  actualizado={LEGAL_ACTUALIZADO}
+>
+  <h2>Esta página</h2>
+  <p>
+    Esta página solo presenta NextCut. No tiene formularios, no pide datos, no usa cookies y no
+    tiene herramientas de analítica ni de publicidad.
+  </p>
+  <ul>
+    <li>
+      La sirve Cloudflare, que, como cualquier servidor, recibe tu dirección IP y el tipo de
+      navegador para poder mandarte la página.
+    </li>
+    <li>
+      Las fotos se cargan desde Unsplash, que también recibe tu dirección IP al mandarlas.
+    </li>
+    <li>La calculadora hace sus cuentas en tu navegador. Los números que pones no se envían.</li>
+  </ul>
+
+  <h2>Si nos escribes por WhatsApp</h2>
+  <p>
+    Vemos tu número, tu nombre de perfil y lo que nos escribes. Lo usamos solo para responderte y,
+    si contratas, para darte el servicio. No te agregamos a listas de difusión ni le pasamos tu
+    número a nadie. WhatsApp es de Meta, que aplica su propia política de privacidad.
+  </p>
+
+  <h2>Si eres cliente de una barbería</h2>
+  <p>
+    Lo que pasa con tus datos cuando te anotas en una fila está en el
+    <a href={`${APP}/privacidad`}>aviso de privacidad de la fila</a>: qué se guarda, quién lo ve y
+    cuándo se borra.
+  </p>
+
+  <h2>Si tienes una barbería</h2>
+  <p>
+    Cómo cuidamos los datos de tus clientes y de tu equipo está en los
+    <a href="/terminos">términos del servicio</a>.
+  </p>
+
+  <h2>Contacto</h2>
+  <p>
+    Para cualquier pregunta sobre tus datos o para pedir que los borremos, escríbenos por
+    <a href={enlaceWhatsApp("Hola, tengo una pregunta sobre mis datos en NextCut.")} target="_blank" rel="noopener">WhatsApp al +504 8975-9031</a>.
+  </p>
+</PaginaLegal>
