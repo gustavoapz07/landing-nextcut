@@ -33,7 +33,8 @@ export const FOTOS = {
   local: "1585747860715-2ba37e788b70",
 } as const;
 
-// Precios propuestos (por barbería, no por barbero). Ajustar antes de publicar.
+// Planes por barbería, no por barbero (ADR-023 en el repo de NextCut). Cada punto existe en la app
+// y se puede mostrar en una demo. Fila ordena la espera; Barbería suma la TV y los números del día.
 export const PLANES = [
   {
     nombre: "Prueba",
@@ -41,10 +42,10 @@ export const PLANES = [
     periodo: "30 días",
     nota: "Todo lo de Barbería, sin tarjeta.",
     incluye: [
-      "Fila virtual y QR para la puerta",
+      "Fila en línea y QR para la puerta",
       "Avisos al celular del cliente",
       "Panel para cada barbero",
-      "Resumen del día",
+      "Pantalla de TV y números del día",
     ],
     foto: FOTOS.rizos,
   },
@@ -52,13 +53,14 @@ export const PLANES = [
     nombre: "Fila",
     precio: "L 390",
     periodo: "al mes",
-    nota: "Para empezar a ordenar la fila.",
+    nota: "Para que nadie se vaya por no saber cuánto falta.",
     incluye: [
-      "Fila virtual sin descargar nada",
-      "QR imprimible para la puerta",
-      "Avisos a los 15 minutos y al llamar",
-      "Panel del barbero",
-      "Barberos sin límite",
+      "Fila en línea desde un QR o un enlace, sin descargar nada",
+      "Estimado de espera según tus servicios",
+      "Aviso al celular cuando falta poco y cuando le toca",
+      "Panel con cuenta propia para cada barbero, sin límite",
+      "Horario que abre y cierra la fila en línea solo",
+      "Pausa de la fila en línea, a mano o sola si se llena",
     ],
     foto: FOTOS.degradado,
   },
@@ -71,9 +73,9 @@ export const PLANES = [
     incluye: [
       "Todo lo de Fila",
       "Pantalla de TV para el local",
-      "Resumen del dueño: abandonos, ingresos y horas pico",
-      "Cuenta propia para cada barbero",
-      "Servicios con precio y duración",
+      "Clientes atendidos y lo cobrado por barbero",
+      "Espera promedio y cuántos se fueron sin cortarse",
+      "Horas pico del día",
     ],
     foto: FOTOS.sombrero,
   },
